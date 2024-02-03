@@ -1,11 +1,13 @@
 # Add Font Types
+
 AddType application/vnd.ms-fontobject .eot
-AddType application/x-font-ttf        .ttf
-AddType application/x-font-opentype   .otf
-AddType application/font-woff         .woff
-AddType application/font-woff2        .woff2
+AddType application/x-font-ttf .ttf
+AddType application/x-font-opentype .otf
+AddType application/font-woff .woff
+AddType application/font-woff2 .woff2
 
 # Add Image Types
+
 AddType image/svg+xml .svg .svgz .jpg .png .ico
 
 <IfModule mod_headers.c>
@@ -20,6 +22,7 @@ AddType image/svg+xml .svg .svgz .jpg .png .ico
 </IfModule>
 
 # Remove index.php from URL
-RewriteCond %{HTTP:X-Requested-With}    !^XMLHttpRequest$
+
+RewriteCond %{HTTP:X-Requested-With} !^XMLHttpRequest$
 RewriteCond %{THE_REQUEST}              ^[^/]*/index\.php [NC]
-RewriteRule ^index\.php(.*)$            $1 [R=301,NS,L]
+RewriteRule ^index\.php(.*)$ $1 [R=301,NS,L]

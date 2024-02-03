@@ -17,28 +17,69 @@ class History extends CI_Controller {
 	public function create() {
 			$postdata = file_get_contents("php://input");
 			$request = json_decode($postdata, true);
-			$firstName = $request['firstName'];
-    	$lastName = $request['lastName'];
-			$company = $request['company'];
-    	$visitorType = $request['visitorType'];
-			$mobileNum = $request['mobileNum'];
-    	$personVisiting = $request['personVisiting'];
+			$first_name = $request['first_name'];
+    	$last_name = $request['last_name'];
+			$company_name = $request['company_name'];
+    	$visitor_type = $request['visitor_type'];
+			$mobile_number = $request['mobile_number'];
+    	$person_visiting = $request['person_visiting'];
 			$isSick = $request['isSick'];
-    	$keyID = $request['keyID'];
+    	$key_id = $request['key_id'];
+    	$key_duration = $request['key_duration'];
+			$key_returned = false;
+			$school_name = $request['school_name'];
 
 			$this->load->model('History_model');
 
-			return $this->response($this->History_model->create($firstName, $lastName, $company, $visitorType, $mobileNum, $personVisiting, $isSick, $keyID));
+			return $this->response($this->History_model->create($first_name, $last_name, $company_name, $visitor_type, $mobile_number, $person_visiting, $isSick, $school_name, $key_id, $key_duration, $key_returned));
 	}
 
-  public function returnKey() {
+	public function getUserbyKeyID() {
+		$postdata = file_get_contents("php://input");
+    $request = json_decode($postdata, true);
+    $key_id = $request['key_id'];
+
+		$this->load->model('History_model');
+
+		return $this->response($this->History_model->getUserbyKeyID($key_id));
+	}
+
+	public function getAll() {
+		$postdata = file_get_contents("php://input");
+    $request = json_decode($postdata, true);
+		$school_name = $request['school_name'];
+		$this->load->model('History_model');
+
+		return $this->response($this->History_model->getAll());
+	}
+
+	public function getAllbyMobile() {
+		$postdata = file_get_contents("php://input");
+    $request = json_decode($postdata, true);
+		$mobile_number = $request['mobile_number'];
+		$this->load->model('History_model');
+
+		return $this->response($this->History_model->getAllbyMobile($mobile_number));
+	}
+
+	public function getAllbyDate() {
+		$postdata = file_get_contents("php://input");
+    $request = json_decode($postdata, true);
+		$created_at = $request['created_at'];
+		$updated_at = $request['updated_at'];
+		$mobile_number = $request['mobile_number'];
+		$this->load->model('History_model');
+
+		return $this->response($this->History_model->getAllbyDate($created_at, $updated_at, $mobile_number));
+	}
+
+  public function keyExpire() {
     $postdata = file_get_contents("php://input");
     $request = json_decode($postdata, true);
-    $mobile = $request['search_mobile'];
-    $name = $request['search_name'];
+    $key_id = $request['key_id'];
 
     $this->load->model('History_model');
 
-    return $this->response($this->History_model->keyExpire($mobile, $name));
+    return $this->response($this->History_model->keyExpire($key_id));
   }
 }
